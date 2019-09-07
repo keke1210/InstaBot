@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,7 +13,13 @@ namespace SeleniumLearning.Helpers
     public class InstaApi
     {
         // Create the reference for the brpowser
-        private IWebDriver driver = new ChromeDriver();
+        public IWebDriver driver = new ChromeDriver();
+
+        public void quit()
+        {
+            driver.Quit();
+        }
+
 
         public void Login()
         {
@@ -24,8 +31,8 @@ namespace SeleniumLearning.Helpers
             IWebElement password = driver.FindElement(By.Name("password"));
 
             // Perform Ops 
-            username.SendKeys("motorsncars");
-            password.SendKeys("skerdi1!");
+            username.SendKeys("test");
+            password.SendKeys("test");
 
             Thread.Sleep(500);
             username.SendKeys(Keys.Enter);
@@ -39,19 +46,20 @@ namespace SeleniumLearning.Helpers
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("https://www.instagram.com/explore/tags/");
+            Thread.Sleep(1000);
             sb.Append(hashtag);
             sb.Append("/");
 
             driver.Navigate().GoToUrl(sb.ToString());
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 30; i++)
             {
                 var scroll = js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
                 Thread.Sleep(3000);
             }
-            //Thread.Sleep(3000);
+            Thread.Sleep(3000);
 
             var hrefs = driver.FindElements(By.TagName("a"));
 
@@ -98,7 +106,7 @@ namespace SeleniumLearning.Helpers
                     Thread.Sleep(2000);
                 }
 
-                Thread.Sleep(6000);
+                Thread.Sleep(16000);
             }
 
         }
