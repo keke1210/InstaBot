@@ -21,7 +21,7 @@ namespace SeleniumLearning.Helpers
         }
 
 
-        public void Login()
+        public void Login(string usrname, string pass)
         {
             driver.Navigate().GoToUrl("https://www.instagram.com/accounts/login/?source=auth_switcher");
 
@@ -31,8 +31,8 @@ namespace SeleniumLearning.Helpers
             IWebElement password = driver.FindElement(By.Name("password"));
 
             // Perform Ops 
-            username.SendKeys("test");
-            password.SendKeys("test");
+            username.SendKeys(usrname);
+            password.SendKeys(pass);
 
             Thread.Sleep(500);
             username.SendKeys(Keys.Enter);
@@ -42,7 +42,7 @@ namespace SeleniumLearning.Helpers
 
 
 
-        public void searchByHashtagAndLike(string hashtag)
+        public void searchByHashtagAndLike(string hashtag, int loop)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("https://www.instagram.com/explore/tags/");
@@ -54,7 +54,7 @@ namespace SeleniumLearning.Helpers
             Thread.Sleep(3000);
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
 
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < loop; i++)
             {
                 var scroll = js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
                 Thread.Sleep(3000);

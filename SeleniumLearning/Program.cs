@@ -25,12 +25,12 @@ namespace SeleniumLearning
             "exoticcars", "instacars", "wheels", "richkidstirana","tirana","speedhunters"};
 
 
-            instaApi.Login();
+            instaApi.Login("test","test");
 
             foreach(string hash in newHashtags)
             {
-                Thread.Sleep(20000);
-                instaApi.searchByHashtagAndLike(hash);
+                Thread.Sleep(5000);
+                instaApi.searchByHashtagAndLike(hash, 10);
                 Thread.Sleep(20000);
 
             }
