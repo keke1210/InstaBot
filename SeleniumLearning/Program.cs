@@ -6,7 +6,7 @@ namespace SeleniumLearning
     {
         static void Main(string[] args)
         {
-            using (InstaApi instaApi = new InstaApi())
+            using (var instaApi = new InstaApi())
             {
                 /// We are adding these new hashtags that we want to search for
                 instaApi.Hashtags.AddRange(new List<string> {"supercar", "auto", "audi", "jdm",

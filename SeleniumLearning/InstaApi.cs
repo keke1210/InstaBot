@@ -12,7 +12,7 @@ namespace SeleniumLearning
 {
     public class InstaApi : IDisposable
     {
-        /// Create the reference for the brpowser
+        /// Create the reference for the browser
         private IWebDriver driver = new ChromeDriver();
 
         public List<string> Hashtags { get; set; } = new List<string>() { "car", "bmw" };
