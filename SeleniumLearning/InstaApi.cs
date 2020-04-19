@@ -15,18 +15,26 @@ namespace SeleniumLearning
         /// Create the reference for the brpowser
         private IWebDriver driver = new ChromeDriver();
 
-        public List<string> Hashtags { get; set; } = new List<string>();
+        public List<string> Hashtags { get; set; } = new List<string>() { "car", "bmw" };
 
         /// <summary>
-        /// Foreach hashtag you get photos and like them
+        /// Foreach hashtag specified, goes to the link, scrolls down and gets likes all the photos
         /// </summary>
-        public void ProccessHashtags()
+        /// <param name="times">Specifies how many times to scroll</param>
+        public void ProcessHashtags()
         {
-           
-            foreach (string hash in Hashtags)
+            foreach (var hashtag in Hashtags)
             {
                 Thread.Sleep(5000);
-                SearchByHashtagAndLike(hash, 10);
+
+                SearchByHashtag(hashtag);
+
+                ScrollDownWithJs(1);
+
+                var photoLinks = GetPhotosByHashtag(hashtag);
+
+                LikePhotos(photoLinks);
+
                 Thread.Sleep(20000);
             }
         }
@@ -50,8 +58,8 @@ namespace SeleniumLearning
 
             Thread.Sleep(2000);
 
-            IWebElement username = driver.FindElement(By.Name("username"));
-            IWebElement password = driver.FindElement(By.Name("password"));
+            var username = driver.FindElement(By.Name("username"));
+            var password = driver.FindElement(By.Name("password"));
 
             // Perform Ops 
             username.SendKeys(usrname);
@@ -64,76 +72,86 @@ namespace SeleniumLearning
 
 
         /// <summary>
-        /// Searches pictures by hashtag specified and scrolls down as much as you specify with the loop parameter. Then likes the photos.
-        /// (This function is not well written if you care about principles)
+        /// Redirects to the route that have the hashtag that you pass as a parameter
         /// </summary>
         /// <param name="hashtag"></param>
-        /// <param name="loop"></param>
-        public void SearchByHashtagAndLike(string hashtag, int loop)
+        private void SearchByHashtag(string hashtag)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("https://www.instagram.com/explore/tags/");
-            Thread.Sleep(1000);
-            sb.Append(hashtag);
-            sb.Append("/");
+            var urlString = $@"https://www.instagram.com/explore/tags/{hashtag}/";
 
-            driver.Navigate().GoToUrl(sb.ToString());
+            // Goes to the specified url
+            driver.Navigate().GoToUrl(urlString);
             Thread.Sleep(3000);
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+        }
 
-            for (int i = 0; i < loop; i++)
+        /// <summary>
+        /// Scrols to bottom every 3 seconds by the times you specify
+        /// </summary>
+        /// <param name="timesToScroll"></param>
+        private void ScrollDownWithJs(int timesToScroll = 10)
+        {
+            var js = (IJavaScriptExecutor)driver;
+            // scrolls down when
+            for (int i = 0; i < timesToScroll; i++)
             {
-                var scroll = js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
+                js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
                 Thread.Sleep(3000);
             }
-            Thread.Sleep(3000);
+        }
 
+        /// <summary>
+        /// Creates a collection of photo links based on the hashtag you pass
+        /// </summary>
+        /// <param name="hashtag"></param>
+        /// <returns></returns>
+        private List<string> GetPhotosByHashtag(string hashtag)
+        {
+            // Gets all tags (links)
             var hrefs = driver.FindElements(By.TagName("a"));
 
-            string pic_uri = "https://www.instagram.com/p/";
+            var base_pic_uri = "https://www.instagram.com/p/";
 
-            List<string> links = new List<string>();
+            var links = new List<string>();
 
             foreach (var elem in hrefs)
             {
                 var pic_hrefs = elem.GetAttribute("href");
 
-                if (pic_hrefs.Contains(pic_uri))
+                if (pic_hrefs.Contains(base_pic_uri))
                 {
                     links.Add(pic_hrefs);
                 }
             }
+            return links;
+        }
 
-
+        /// <summary>
+        /// Likes the photos
+        /// </summary>
+        /// <param name="links"></param>
+        private void LikePhotos(List<string> links)
+        {
             foreach (var piclink in links)
             {
                 driver.Navigate().GoToUrl(piclink);
                 Thread.Sleep(500);
-               
-                var likeButtons = driver.FindElements(By.ClassName("_8-yf5"));
 
                 try
                 {
-                    foreach (var likeButton in likeButtons)
-                    {
-                        string ariaLabelAttr = likeButton.GetAttribute("aria-label");
+                    var likeButton = driver.FindElements(By.ClassName("_8-yf5")).FirstOrDefault(x => x.GetAttribute("aria-label").Equals("Like"));
 
-                        if (ariaLabelAttr == "Like")
-                        {
-                            likeButton.Click();
-                            break;
-                        }
-                    }
-
+                    if (likeButton != null)
+                        likeButton.Click();
                 }
                 catch (Exception)
                 {
                     Thread.Sleep(2000);
                 }
-
-                Thread.Sleep(16000);
+                finally
+                {
+                    Thread.Sleep(16000);
+                }
             }
-
         }
 
         public void Dispose()
