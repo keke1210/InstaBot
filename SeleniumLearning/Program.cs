@@ -1,4 +1,4 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
 
 namespace SeleniumLearning
 {
@@ -10,7 +10,7 @@ namespace SeleniumLearning
             using (InstaApi instaApi = new InstaApi())
             {
                 /// All the hashtags that we want to search for
-                string[] newHashtags = {"car", "bmw", "supercar", "carporn", "auto", "audi", "jdm",
+                instaApi.Hashtags = new List<string> {"car", "bmw", "supercar", "carporn", "auto", "audi", "jdm",
                 "supercars", "carswithoutlimits", "carsofinstagram", "luxury", "speed", "mercedes",
                 "instacar", "luxurycars", "racing", "sportscars", "turbo", "carlifestyle", "porsche",
                 "sportscar", "drive", "subaruwrx", "photography", "love", "stance", "ferrari",
@@ -19,13 +19,8 @@ namespace SeleniumLearning
                 /// Put your instagram credentials here
                 instaApi.Login("name", "password");
 
-                /// Foreach hashtag you 
-                foreach (string hash in newHashtags)
-                {
-                    Thread.Sleep(5000);
-                    instaApi.searchByHashtagAndLike(hash, 10);
-                    Thread.Sleep(20000);
-                }
+                /// Foreach Hashtag access and like photos 
+                instaApi.ProccessHashtags();
 
                 // Close the session
                 instaApi.Quit();

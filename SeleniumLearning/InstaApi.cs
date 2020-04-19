@@ -13,7 +13,23 @@ namespace SeleniumLearning
     public class InstaApi : IDisposable
     {
         /// Create the reference for the brpowser
-        public IWebDriver driver = new ChromeDriver();
+        private IWebDriver driver = new ChromeDriver();
+
+        public List<string> Hashtags { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Foreach hashtag you get photos and like them
+        /// </summary>
+        public void ProccessHashtags()
+        {
+           
+            foreach (string hash in Hashtags)
+            {
+                Thread.Sleep(5000);
+                SearchByHashtagAndLike(hash, 10);
+                Thread.Sleep(20000);
+            }
+        }
 
         /// <summary>
         /// Close the driver session 
@@ -53,7 +69,7 @@ namespace SeleniumLearning
         /// </summary>
         /// <param name="hashtag"></param>
         /// <param name="loop"></param>
-        public void searchByHashtagAndLike(string hashtag, int loop)
+        public void SearchByHashtagAndLike(string hashtag, int loop)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("https://www.instagram.com/explore/tags/");
@@ -110,7 +126,7 @@ namespace SeleniumLearning
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Thread.Sleep(2000);
                 }
