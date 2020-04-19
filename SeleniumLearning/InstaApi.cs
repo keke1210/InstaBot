@@ -138,7 +138,8 @@ namespace SeleniumLearning
 
                 try
                 {
-                    var likeButton = driver.FindElements(By.ClassName("_8-yf5")).FirstOrDefault(x => x.GetAttribute("aria-label").Equals("Like"));
+                    var likeButton = driver.FindElements(By.ClassName("_8-yf5"))
+                                           .FirstOrDefault(button => button.GetAttribute("aria-label").Equals("Like"));
 
                     if (likeButton != null)
                         likeButton.Click();
