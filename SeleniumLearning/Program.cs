@@ -18,7 +18,7 @@ namespace SeleniumLearning
                 /// Put your instagram credentials here
                 instaApi.Login("username", "password");
 
-                /// Foreach Hashtag access and like photos, by specifying the times of scroll
+                /// Foreach Hashtag access and like photos, by specifying the times to scroll
                 instaApi.ProcessHashtags(3);
 
                 // Close the session
