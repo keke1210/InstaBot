@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SeleniumLearning
 {
-    public class InstaApi
+    public class InstaApi : IDisposable
     {
         /// Create the reference for the brpowser
         public IWebDriver driver = new ChromeDriver();
@@ -18,7 +18,7 @@ namespace SeleniumLearning
         /// <summary>
         /// Close the driver session 
         /// </summary>
-        public void quit()
+        public void Quit()
         {
             driver.Quit();
         }
@@ -118,6 +118,23 @@ namespace SeleniumLearning
                 Thread.Sleep(16000);
             }
 
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            Dispose(true);
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                driver.Dispose();
+                this.Dispose();
+            }
         }
     }
 }
