@@ -8,19 +8,26 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SeleniumLearning.Helpers
+namespace SeleniumLearning
 {
     public class InstaApi
     {
-        // Create the reference for the brpowser
+        /// Create the reference for the brpowser
         public IWebDriver driver = new ChromeDriver();
 
+        /// <summary>
+        /// Close the driver session 
+        /// </summary>
         public void quit()
         {
             driver.Quit();
         }
 
-
+        /// <summary>
+        /// Logs in to Instagram account
+        /// </summary>
+        /// <param name="usrname"></param>
+        /// <param name="pass"></param>
         public void Login(string usrname, string pass)
         {
             driver.Navigate().GoToUrl("https://www.instagram.com/accounts/login/?source=auth_switcher");
@@ -37,11 +44,15 @@ namespace SeleniumLearning.Helpers
             Thread.Sleep(500);
             username.SendKeys(Keys.Enter);
             Thread.Sleep(2000);
-
         }
 
 
-
+        /// <summary>
+        /// Searches pictures by hashtag specified and scrolls down as much as you specify with the loop parameter. Then likes the photos.
+        /// (This function is not well written if you care about principles)
+        /// </summary>
+        /// <param name="hashtag"></param>
+        /// <param name="loop"></param>
         public void searchByHashtagAndLike(string hashtag, int loop)
         {
             StringBuilder sb = new StringBuilder();
@@ -82,10 +93,8 @@ namespace SeleniumLearning.Helpers
             {
                 driver.Navigate().GoToUrl(piclink);
                 Thread.Sleep(500);
-                var scroll = js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
-                Thread.Sleep(1000);
-
-                var likeButtons = driver.FindElements(By.ClassName("u-__7"));
+               
+                var likeButtons = driver.FindElements(By.ClassName("_8-yf5"));
 
                 try
                 {

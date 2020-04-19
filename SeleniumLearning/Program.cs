@@ -1,13 +1,4 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using SeleniumLearning.Helpers;
+﻿using System.Threading;
 
 namespace SeleniumLearning
 {
@@ -18,14 +9,14 @@ namespace SeleniumLearning
         {
             InstaApi instaApi = new InstaApi();
 
-            string[] newHashtags = {/*"car", "bmw", "supercar", "carporn", "auto", "audi", "jdm",
-            "supercars", */"carswithoutlimits", "carsofinstagram", "luxury", "speed", "mercedes",
+            string[] newHashtags = {"car", "bmw", "supercar", "carporn", "auto", "audi", "jdm",
+            "supercars", "carswithoutlimits", "carsofinstagram", "luxury", "speed", "mercedes",
             "instacar", "luxurycars", "racing", "sportscars", "turbo", "carlifestyle", "porsche",
             "sportscar", "drive", "subaruwrx", "photography", "love", "stance", "ferrari",
             "exoticcars", "instacars", "wheels", "richkidstirana","tirana","speedhunters"};
 
 
-            instaApi.Login("test","test");
+            instaApi.Login("name","password");
 
             foreach(string hash in newHashtags)
             {
