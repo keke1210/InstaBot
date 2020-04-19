@@ -19,7 +19,7 @@ namespace SeleniumLearning
                 instaApi.Login("username", "password");
 
                 /// Foreach Hashtag access and like photos, by specifying the times of scroll
-                instaApi.ProcessHashtags();
+                instaApi.ProcessHashtags(3);
 
                 // Close the session
                 instaApi.Quit();

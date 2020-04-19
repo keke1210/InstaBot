@@ -21,7 +21,7 @@ namespace SeleniumLearning
         /// Foreach hashtag specified, goes to the link, scrolls down and gets likes all the photos
         /// </summary>
         /// <param name="times">Specifies how many times to scroll</param>
-        public void ProcessHashtags()
+        public void ProcessHashtags(int timesToScroll = 10)
         {
             foreach (var hashtag in Hashtags)
             {
@@ -29,7 +29,7 @@ namespace SeleniumLearning
 
                 SearchByHashtag(hashtag);
 
-                ScrollDownWithJs(1);
+                ScrollDownWithJs(timesToScroll);
 
                 var photoLinks = GetPhotosByHashtag(hashtag);
 
